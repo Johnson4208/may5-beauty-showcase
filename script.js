@@ -48,64 +48,19 @@ document.querySelectorAll('[data-service]').forEach((link) => {
 });
 
 const heroArt = document.querySelector('.hero-art');
-const heroSlides = [...document.querySelectorAll('.hero-slide')];
-const heroDots = [...document.querySelectorAll('.hero-dot')];
-const heroCaption = document.querySelector('.hero-caption-text');
-const heroLabel = document.querySelector('.photo-label');
-const heroCount = document.querySelector('.hero-slide-count');
-const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-let activeHeroSlide = 0;
-let heroTimer;
-
-function showHeroSlide(index) {
-  activeHeroSlide = (index + heroSlides.length) % heroSlides.length;
-  const activeSlide = heroSlides[activeHeroSlide];
-  heroSlides.forEach((slide, slideIndex) => {
-    slide.classList.toggle('is-active', slideIndex === activeHeroSlide);
-    slide.setAttribute('aria-hidden', String(slideIndex !== activeHeroSlide));
-  });
-  heroDots.forEach((dot, dotIndex) => {
-    const isActive = dotIndex === activeHeroSlide;
-    dot.classList.toggle('is-active', isActive);
-    dot.setAttribute('aria-pressed', String(isActive));
-  });
-  heroCaption.textContent = activeSlide.dataset.caption;
-  const [firstLine, secondLine] = activeSlide.dataset.title.split('|');
-  heroLabel.replaceChildren(...[firstLine, secondLine].map((line) => {
-    const span = document.createElement('span');
-    span.textContent = line;
-    return span;
-  }));
-  heroCount.innerHTML = `<span>${String(activeHeroSlide + 1).padStart(2, '0')}</span> <i>/</i> ${String(heroSlides.length).padStart(2, '0')}`;
-  heroArt.classList.add('is-changing');
-  window.setTimeout(() => heroArt.classList.remove('is-changing'), 280);
-}
-
-function stopHeroRotation() {
-  window.clearInterval(heroTimer);
-  heroTimer = undefined;
-}
-
-function startHeroRotation() {
-  stopHeroRotation();
-  if (!reducedMotion.matches && !document.hidden) {
-    heroTimer = window.setInterval(() => showHeroSlide(activeHeroSlide + 1), 5600);
-  }
-}
-
-document.querySelector('.hero-prev').addEventListener('click', () => showHeroSlide(activeHeroSlide - 1));
-document.querySelector('.hero-next').addEventListener('click', () => showHeroSlide(activeHeroSlide + 1));
-heroDots.forEach((dot, index) => dot.addEventListener('click', () => showHeroSlide(index)));
-heroArt.addEventListener('pointerenter', stopHeroRotation);
-heroArt.addEventListener('pointerleave', startHeroRotation);
-heroArt.addEventListener('focusin', stopHeroRotation);
-heroArt.addEventListener('focusout', (event) => {
-  if (!heroArt.contains(event.relatedTarget)) startHeroRotation();
+const heroPhoto = document.querySelector('.hero-photo-wrap');
+heroArt.addEventListener('pointermove', (event) => {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || window.innerWidth < 800) return;
+  const bounds = heroArt.getBoundingClientRect();
+  const x = (event.clientX - bounds.left) / bounds.width - 0.5;
+  const y = (event.clientY - bounds.top) / bounds.height - 0.5;
+  heroPhoto.style.setProperty('--tilt-x', `${y * -1.5}deg`);
+  heroPhoto.style.setProperty('--tilt-y', `${x * 1.5}deg`);
 });
-document.addEventListener('visibilitychange', startHeroRotation);
-reducedMotion.addEventListener?.('change', startHeroRotation);
-heroSlides.forEach((slide, index) => slide.setAttribute('aria-hidden', String(index !== activeHeroSlide)));
-startHeroRotation();
+heroArt.addEventListener('pointerleave', () => {
+  heroPhoto.style.setProperty('--tilt-x', '0deg');
+  heroPhoto.style.setProperty('--tilt-y', '0deg');
+});
 
 const menuToggle = document.querySelector('.menu-toggle');
 const navigation = document.querySelector('.main-nav');
@@ -118,3 +73,4 @@ navigation.querySelectorAll('a').forEach((link) => link.addEventListener('click'
   menuToggle.setAttribute('aria-expanded', 'false');
 }));
 document.querySelector('#year').textContent = new Date().getFullYear();
+

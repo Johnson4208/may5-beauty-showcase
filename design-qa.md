@@ -20,5 +20,5 @@
 
 final result: passed
 
-Desktop preview visually matches the chosen direction. Responsive breakpoints and reduced-motion behavior were reviewed in source; a separate mobile viewport screenshot was not captured in this browser session.
+Desktop preview and live GitHub Pages rendering match the chosen direction. Cache-busted CSS and JavaScript URLs ensure browsers fetch the updated layout and interaction code after deploy. Responsive breakpoints and reduced-motion behavior were reviewed in source; a separate mobile viewport screenshot was not captured in this browser session.
 

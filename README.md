@@ -6,7 +6,7 @@ Website giới thiệu sản phẩm và dịch vụ chăm sóc sắc đẹp củ
 
 1. Mở **Settings → Pages** trong repository.
 2. Ở mục **Build and deployment**, chọn **GitHub Actions** làm nguồn triển khai.
-3. Mỗi lần đẩy thay đổi lên nhánh `main`, workflow sẽ tự cập nhật website.
+3. Mỗi lần đẩy thay đổi lên nhánh `master`, workflow sẽ tự cập nhật website.
 
 Sau lần chạy đầu tiên, địa chỉ website xuất hiện tại **Settings → Pages**.
 

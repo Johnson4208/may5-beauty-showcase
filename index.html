@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css?v=services-v3" />
+    <link rel="stylesheet" href="orders.css" />
   </head>
   <body>
     <header class="site-header">
@@ -18,7 +19,7 @@
       <nav class="main-nav" aria-label="Điều hướng chính">
         <a href="#products">Bộ sưu tập</a><a href="#services">Dịch vụ</a><a href="#story">Về May5</a>
       </nav>
-      <div class="header-tools"><a class="icon-link" href="#products" aria-label="Tìm sản phẩm"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 5 5"></path></svg></a><a class="icon-link bag-link" href="#contact" aria-label="Liên hệ đặt hàng"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l1 13H4L5 8Z"></path><path d="M9 9V6a3 3 0 0 1 6 0v3"></path></svg></a></div>
+      <div class="header-tools"><a class="icon-link" href="#products" aria-label="Tìm sản phẩm"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 5 5"></path></svg></a><button class="icon-link bag-link order-bag" type="button" data-open-cart aria-label="Mở giỏ dịch vụ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l1 13H4L5 8Z"></path><path d="M9 9V6a3 3 0 0 1 6 0v3"></path></svg><span class="order-count" data-cart-count hidden>0</span></button></div>
     </header>
 
     <main>
@@ -68,6 +69,7 @@
                 <p>Chăm sóc móng gọn gàng, hoàn thiện với màu sắc hoặc thiết kế bạn yêu thích.</p>
               </div>
               <a class="service-link" href="#contact" data-service="Manicure tinh tế" aria-label="Tìm hiểu dịch vụ Manicure tinh tế">Tìm hiểu dịch vụ <span aria-hidden="true">↗</span></a>
+              <button class="order-add" type="button" data-add-service="manicure">Thêm vào giỏ <span aria-hidden="true">+</span></button>
             </article>
             <article class="service-card">
               <div class="service-card-top" aria-hidden="true">
@@ -80,6 +82,7 @@
                 <p>Khoảng nghỉ nhẹ nhàng để làm sạch, dưỡng ẩm và lắng nghe làn da của bạn.</p>
               </div>
               <a class="service-link" href="#contact" data-service="Chăm sóc da cơ bản" aria-label="Tìm hiểu dịch vụ Chăm sóc da cơ bản">Tìm hiểu dịch vụ <span aria-hidden="true">↗</span></a>
+              <button class="order-add" type="button" data-add-service="facial">Thêm vào giỏ <span aria-hidden="true">+</span></button>
             </article>
             <article class="service-card">
               <div class="service-card-top" aria-hidden="true">
@@ -92,9 +95,12 @@
                 <p>Kết hợp chăm sóc móng và làn da trong một buổi hẹn thật thảnh thơi.</p>
               </div>
               <a class="service-link" href="#contact" data-service="Combo chăm sóc và thư giãn" aria-label="Tìm hiểu dịch vụ Combo chăm sóc &amp; thư giãn">Tìm hiểu dịch vụ <span aria-hidden="true">↗</span></a>
+              <button class="order-add" type="button" data-add-service="combo">Thêm vào giỏ <span aria-hidden="true">+</span></button>
             </article>
           </div>
 
+          <div class="order-service-cart"><button class="order-add" type="button" data-open-cart>Xem giỏ dịch vụ</button></div>
+          <p class="order-feedback" id="order-feedback" role="status"></p>
           <div class="service-footer">
             <a href="#contact" class="text-link light-link">Hỏi May5 về dịch vụ <span aria-hidden="true">→</span></a>
           </div>
@@ -109,6 +115,32 @@
     <footer class="site-footer"><a class="brand footer-brand" href="#home"><span class="brand-mark">M</span><span>MAY5<small>YOUR BEAUTY · OUR CARE</small></span></a><span class="footer-copy">Một chút dịu dàng, dành cho bạn. © <span id="year"></span> May5</span><a class="back-top" href="#home">Lên đầu trang ↑</a></footer>
 
     <dialog class="product-dialog" id="product-dialog"><button class="dialog-close" aria-label="Đóng">×</button><div class="dialog-content"><span class="eyebrow"><span class="eyebrow-line"></span> MAY5 SELECTS</span><h2 id="dialog-title"></h2><p>Sản phẩm được May5 chọn lựa với sự nâng niu. Nhắn May5 để xem thêm màu sắc, chi tiết và cách đặt hàng.</p><a class="button button-dark" id="dialog-email" href="#">Hỏi May5 về món này <span>↗</span></a></div></dialog>
+    <dialog class="order-dialog" id="order-dialog" aria-labelledby="order-title">
+      <form method="dialog" class="order-close"><button type="submit" aria-label="Đóng giỏ dịch vụ">×</button></form>
+      <p class="order-kicker">MAY5 · ĐẶT DỊCH VỤ</p>
+      <h2 id="order-title" tabindex="-1">Giỏ dịch vụ</h2>
+      <section id="cart-step">
+        <ul id="cart-items" class="order-items"></ul>
+        <p id="cart-empty">Giỏ của bạn đang trống. Hãy chọn một gói dịch vụ để bắt đầu.</p>
+        <button class="order-primary" id="cart-confirm" type="button" disabled>Xác nhận giỏ dịch vụ</button>
+      </section>
+      <form id="checkout-step" method="post" class="order-form" hidden>
+        <p id="checkout-summary" class="order-summary"></p>
+        <p>May5 sẽ gọi để xác nhận lịch hẹn và chi phí. Bạn thanh toán sau khi được nhân viên hướng dẫn.</p>
+        <label>Họ và tên<input name="name" autocomplete="name" required minlength="2" maxlength="100" /></label>
+        <label>Email<input name="email" type="email" autocomplete="email" required maxlength="254" /></label>
+        <label>Số điện thoại<input name="phone" type="tel" autocomplete="tel" required maxlength="32" /></label>
+        <p class="order-note">May5 dùng thông tin này để liên hệ về yêu cầu đặt dịch vụ của bạn.</p>
+        <p id="checkout-error" class="order-error" role="alert" hidden></p>
+        <button class="order-primary" type="submit" disabled>Gửi yêu cầu đặt dịch vụ</button>
+        <button class="order-plain" id="checkout-back" type="button">Quay lại giỏ</button>
+      </form>
+      <div id="order-success" hidden>
+        <p id="order-receipt"></p>
+        <p>Nhân viên May5 sẽ gọi vào số điện thoại bạn đã cung cấp để xác nhận.</p>
+      </div>
+    </dialog>
+    <script type="module" src="checkout.js"></script>
     <script src="script.js?v=sparkle-v2"></script>
   </body>
 </html>

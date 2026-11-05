@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <meta name="referrer" content="no-referrer">
+  <title>May5 · Quản lý yêu cầu</title>
+  <link rel="stylesheet" href="orders.css">
+</head>
+<body class="order-admin">
+  <header class="admin-header">
+    <a href="./" class="order-kicker">MAY5 ↗</a>
+    <button id="admin-logout" class="order-plain" type="button" hidden>Đăng xuất</button>
+  </header>
+  <main class="admin-main">
+    <p class="order-kicker">KHU VỰC NHÂN VIÊN</p>
+    <h1>Quản lý yêu cầu dịch vụ</h1>
+    <p id="admin-message" role="status"></p>
+    <form id="admin-login" method="post" class="order-form admin-login">
+      <label>Email quản trị<input type="email" name="email" autocomplete="username" required></label>
+      <label>Mật khẩu<input type="password" name="password" autocomplete="current-password" required></label>
+      <button class="order-primary" type="submit" disabled>Đăng nhập</button>
+    </form>
+    <section id="admin-dashboard" hidden aria-label="Danh sách yêu cầu">
+      <div class="admin-toolbar">
+        <h2>Yêu cầu đặt dịch vụ</h2>
+        <button class="order-primary" id="admin-refresh" type="button">Làm mới</button>
+      </div>
+      <div id="admin-orders" class="admin-orders"></div>
+      <button class="order-primary" id="admin-more" type="button" hidden>Xem đơn cũ hơn</button>
+    </section>
+  </main>
+  <script type="module" src="admin.js"></script>
+</body>
+</html>
